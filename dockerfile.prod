@@ -4,11 +4,10 @@ WORKDIR /go/src
 
 COPY ./rocks_app /go/src/
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+RUN rm go.mod && rm rocks.go
 
 FROM scratch  
 WORKDIR /root/
 COPY --from=builder /go/src ./
-
-# RUN rm go.mod && rm rocks.go
 
 CMD ["./app"]  
